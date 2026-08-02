@@ -5,7 +5,7 @@ from importlib.metadata import entry_points
 from lexigram.cli.contributors.runtime import ENTRY_POINT_GROUP
 
 _NON_SCOPE_WITH_ENTRY_POINT = {
-    "admin",  # lexigram-admin — proprietary, documented as non-scope
+    "admin",  # lexigram-admin — experimental tier, documented as non-scope
 }
 
 
@@ -32,8 +32,8 @@ def test_published_package_list_matches_cli_matrix(repo_root: Path) -> None:
     assert publish_script.is_file(), f"publish_public.sh not found at {publish_script}"
     text = publish_script.read_text()
 
-    match = re.search(r'OPEN_PKGS="(.*?)"', text, re.DOTALL)
-    assert match, "OPEN_PKGS not found in publish_public.sh"
+    match = re.search(r'STABLE_PKGS="(.*?)"', text, re.DOTALL)
+    assert match, "STABLE_PKGS not found in publish_public.sh"
     publish_pkgs = {p.strip() for p in match.group(1).split() if p.strip() and p.strip() != "\\"}
 
     matrix_doc = repo_root / "lexigram-cli" / "docs" / "PUBLIC_PACKAGE_CLI_MATRIX.md"
